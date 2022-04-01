@@ -9,25 +9,28 @@
   </head>
   <body>
     <main class="container">
-      <h1>Number Guesser</h1>
-      <form class="form">
-        <h3>Guess any number between 1 to 10</h3>
-        <input type="text" name="number" class="form-control" />
-        <span class="alert"></span>
-        <div class="reset">
-          <button class="btn">Reset</button>
+      <div class="card">
+        <h1>Number Guesser</h1>
+        <div class="form">
+          <h3>Guess any number between 1 to 10</h3>
+          <input type="number" class="form-control" id="guess" />
+          <span class="alert"></span>
+          <div class="reset">
+            <button class="btn reset-btn">Play Again</button>
+          </div>
         </div>
-      </form>
-      <div class="result">
-        <div class="score">
-          <h3>Score</h3>
-          <h3>5</h3>
-        </div>
-        <div class="highest-score">
-          <h3>Highest</h3>
-          <h3>10</h3>
+        <div class="result">
+          <div class="score">
+            <h3>Score</h3>
+            <h3 id="current-score">10</h3>
+          </div>
+          <div class="highest-score">
+            <h3>Highest</h3>
+            <h3 id="highest-score">0</h3>
+          </div>
         </div>
       </div>
+      <footer>Made with ❤ & JavaScript by Pawan Bhatt</footer>
     </main>
     <script src="./app.js"></script>
   </body>
