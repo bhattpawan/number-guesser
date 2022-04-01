@@ -1,6 +1,6 @@
 // #00B74A
 
-const secretNumber = Math.trunc(Math.random() * 10) + 1;
+let secretNumber = Math.trunc(Math.random() * 10) + 1;
 const inputField = document.querySelector('#guess');
 const resetBtn = document.querySelector('.reset-btn');
 
@@ -14,6 +14,12 @@ const getMaxScore = () => {
   return maxScore;
 };
 
+const getTotalMaxScore = (currentScore) => {
+  let totalMax = parseInt(getMaxScore());
+  totalMax += parseInt(currentScore);
+  return totalMax;
+};
+
 const updateScores = (currentScore, maxScore) => {
   document.querySelector('#highest-score').textContent = maxScore;
   document.querySelector('#current-score').textContent = currentScore;
@@ -23,19 +29,23 @@ const updateMessage = (message) => {
   document.querySelector('.alert').textContent = message;
 };
 
+const clearMessage = (message) => {
+  document.querySelector('.alert').textContent = '';
+};
+
 const clearInputField = () => {
   inputField.value = '';
 };
 
 const resetScores = () => {
   document.querySelector('#current-score').textContent = 10;
-  document.querySelector('#highest-score').textContent = getMaxScore();
 };
 
 const reset = () => {
   clearInputField();
   resetScores();
   enableInput();
+  clearMessage();
 };
 
 const disableInput = () => {
@@ -48,7 +58,7 @@ const enableInput = () => {
 
 resetBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  resetScores();
+  reset();
 });
 
 const checkNumber = (e) => {
@@ -56,17 +66,19 @@ const checkNumber = (e) => {
   let currentScore = getCurrentScore();
   let maxScore = getMaxScore();
   if (guessedNumber && guessedNumber > 0 && guessedNumber <= 10) {
-    if (guessedNumber == secretNumber) {
+    if (guessedNumber === secretNumber) {
       updateMessage('Thats Correct ✔');
       disableInput();
       let max = currentScore > maxScore ? currentScore : maxScore;
+      max = getTotalMaxScore(max);
       updateScores(currentScore, max);
     } else {
-      if (currentScore > 0) {
+      if (currentScore > 1) {
         currentScore--;
         updateMessage('Incorrect Guess ❌');
         updateScores(currentScore, maxScore);
       } else {
+        updateMessage(`Attempts Expired. The correct answer is ${secretNumber}`);
         disableInput();
       }
     }
