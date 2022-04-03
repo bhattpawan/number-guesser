@@ -1,5 +1,6 @@
 // #00B74A
 
+// Variable Definitions
 let secretNumber = Math.trunc(Math.random() * 10) + 1;
 const inputField = document.querySelector('#guess');
 const resetBtn = document.querySelector('.reset-btn');
@@ -14,12 +15,6 @@ const getMaxScore = () => {
   return maxScore;
 };
 
-const getTotalMaxScore = (currentScore) => {
-  let totalMax = parseInt(getMaxScore());
-  totalMax += parseInt(currentScore);
-  return totalMax;
-};
-
 const updateScores = (currentScore, maxScore) => {
   document.querySelector('#highest-score').textContent = maxScore;
   document.querySelector('#current-score').textContent = currentScore;
@@ -29,7 +24,7 @@ const updateMessage = (message) => {
   document.querySelector('.alert').textContent = message;
 };
 
-const clearMessage = (message) => {
+const clearMessage = () => {
   document.querySelector('.alert').textContent = '';
 };
 
@@ -46,6 +41,7 @@ const reset = () => {
   resetScores();
   enableInput();
   clearMessage();
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
 };
 
 const disableInput = () => {
@@ -54,6 +50,11 @@ const disableInput = () => {
 
 const enableInput = () => {
   inputField.disabled = false;
+};
+
+const calcMaxScore = (currentScore, maxScore) => {
+  let max = currentScore > maxScore ? currentScore : maxScore;
+  return max;
 };
 
 resetBtn.addEventListener('click', (e) => {
@@ -69,9 +70,8 @@ const checkNumber = (e) => {
     if (guessedNumber === secretNumber) {
       updateMessage('Thats Correct ✔');
       disableInput();
-      let max = currentScore > maxScore ? currentScore : maxScore;
-      max = getTotalMaxScore(max);
-      updateScores(currentScore, max);
+      maxScore = calcMaxScore(currentScore, maxScore);
+      updateScores(currentScore, maxScore);
     } else {
       if (currentScore > 1) {
         currentScore--;
@@ -84,5 +84,7 @@ const checkNumber = (e) => {
     }
   }
 };
+
+// Event Listeners
 
 inputField.addEventListener('input', checkNumber);
